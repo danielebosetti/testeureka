@@ -12,11 +12,11 @@
 #include <thread>
 #include <algorithm>
 #include <map>
-#include "ppeureka/helpers.h"
+#include "testeureka/helpers.h"
 
 namespace {
-    using namespace ppeureka::curl;
-    using DeferRun = ppeureka::helpers::DeferRun;
+    using namespace testeureka::curl;
+    using DeferRun = testeureka::helpers::DeferRun;
 
     // all HttpClientPool use one timer thread to free empty client
     class PoolGlobalTimerThread
@@ -142,11 +142,11 @@ namespace {
     PoolGlobalTimerThread sTimerThread;
 }
 
-namespace ppeureka { namespace curl {
+namespace testeureka { namespace curl {
 
-    using namespace ppeureka::http::impl;
+    using namespace testeureka::http::impl;
 
-    using DeferRun = ppeureka::helpers::DeferRun;
+    using DeferRun = testeureka::helpers::DeferRun;
 
     HttpClientPool::~HttpClientPool()
     {

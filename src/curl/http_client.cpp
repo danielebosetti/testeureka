@@ -6,7 +6,7 @@
 
 #include "http_client.h"
 #include "../http_helpers.h"
-#include <ppeureka/helpers.h>
+#include <testeureka/helpers.h>
 #include <algorithm>
 #include <tuple>
 #include <cassert>
@@ -26,9 +26,9 @@
 #endif
 
 
-namespace ppeureka { namespace curl {
+namespace testeureka { namespace curl {
 
-    using namespace ppeureka::http::impl;
+    using namespace testeureka::http::impl;
 
     namespace {
         struct CurlInitializer
@@ -77,13 +77,13 @@ namespace ppeureka { namespace curl {
         void throwCurlError(CURLcode code, const char *err, bool isNetError, bool isParamError)
         {
             if (code == CURLE_ABORTED_BY_CALLBACK)
-                throw ppeureka::OperationAborted();
+                throw testeureka::OperationAborted();
             else if (isNetError)
-                throw ppeureka::NetError(std::string(err) + " (" + std::to_string(code) + ")");
+                throw testeureka::NetError(std::string(err) + " (" + std::to_string(code) + ")");
             else if (isParamError)
-                throw ppeureka::ParamError(std::string(err) + " (" + std::to_string(code) + ")");
+                throw testeureka::ParamError(std::string(err) + " (" + std::to_string(code) + ")");
             else
-                throw ppeureka::Error(std::string(err) + " (" + std::to_string(code) + ")");
+                throw testeureka::Error(std::string(err) + " (" + std::to_string(code) + ")");
         }
 
         enum { Buffer_Size = 16384 };
@@ -173,7 +173,7 @@ namespace ppeureka { namespace curl {
         if (tlsConfig.verifyStatus)
         {
 #ifdef PPCONSUL_DISABLE_SSL_VERIFYSTATUS
-            throw ppeureka::Error("ppeureka was built without support for CURLOPT_SSL_VERIFYSTATUS");
+            throw testeureka::Error("testeureka was built without support for CURLOPT_SSL_VERIFYSTATUS");
 #else
             setopt(CURLOPT_SSL_VERIFYSTATUS, 1);
 #endif
@@ -187,11 +187,11 @@ namespace ppeureka { namespace curl {
         static const CurlInitializer g_initialized;
 
         if (!g_initialized)
-            throw ppeureka::Error("CURL was not successfully initialized");
+            throw testeureka::Error("CURL was not successfully initialized");
 
         m_handle.reset(curl_easy_init());
         if (!m_handle)
-            throw ppeureka::Error("CURL handle creation failed");
+            throw testeureka::Error("CURL handle creation failed");
 
         memset(m_errBuffer, 0, sizeof(m_errBuffer));
         if (auto err = curl_easy_setopt(handle(), CURLOPT_ERRORBUFFER, m_errBuffer))
@@ -207,7 +207,7 @@ namespace ppeureka { namespace curl {
 #else
         m_enableStop = false;
         setopt(CURLOPT_NOPROGRESS, 1l);
-        //throw ppeureka::Error("Ppconsul is built without support for stopping the client (libcurl 7.32.0 or newer is required)");
+        //throw testeureka::Error("Ppconsul is built without support for stopping the client (libcurl 7.32.0 or newer is required)");
 #endif
 
         // TODO: CURLOPT_NOSIGNAL?
@@ -282,7 +282,7 @@ namespace ppeureka { namespace curl {
         }
         else
         {
-            throw ppeureka::Error("not supported method");
+            throw testeureka::Error("not supported method");
         }
 
         perform();
@@ -293,7 +293,7 @@ namespace ppeureka { namespace curl {
     void HttpClient::stop()
     {
         //if (!m_enableStop)
-        //    throw ppeureka::Error("Must enable stop at construction time");
+        //    throw testeureka::Error("Must enable stop at construction time");
         m_stopped.store(true, std::memory_order_relaxed);
     }
 

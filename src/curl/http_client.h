@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <ppeureka/http_client.h>
+#include <testeureka/http_client.h>
 #include "http_helpers.h"
 #include <curl/curl.h>
 #include <memory>
@@ -14,25 +14,25 @@
 #include <mutex>
 
 
-namespace ppeureka { namespace curl {
+namespace testeureka { namespace curl {
 
     namespace detail
     {
         struct CurlEasyDeleter
         {
-            void operator() (CURL *handle) const PPEUREKA_NOEXCEPT
+            void operator() (CURL *handle) const testeureka_NOEXCEPT
             {
                 curl_easy_cleanup(handle);
             }
         };
     }
 
-    class HttpClient: public ppeureka::http::impl::Client
+    class HttpClient: public testeureka::http::impl::Client
     {
     public:
         using GetResponse = std::tuple<http::Status, ResponseHeaders, std::string>;
-        using TlsConfig = ppeureka::http::impl::TlsConfig;
-        using HttpMethod = ppeureka::http::impl::HttpMethod;
+        using TlsConfig = testeureka::http::impl::TlsConfig;
+        using HttpMethod = testeureka::http::impl::HttpMethod;
 
         using lock_type = std::mutex;
         using auto_lock_type = std::unique_lock<lock_type>;
@@ -55,7 +55,7 @@ namespace ppeureka { namespace curl {
         HttpClient& operator= (HttpClient&&) = delete;
 
     private:
-        void setupTls(const ppeureka::http::impl::TlsConfig& tlsConfig);
+        void setupTls(const testeureka::http::impl::TlsConfig& tlsConfig);
 
         auto_lock_type get_lock_param() const { return auto_lock_type{m_lock_param}; }
         auto_lock_type get_lock_request() const { return auto_lock_type{m_lock_request}; }
@@ -63,9 +63,9 @@ namespace ppeureka { namespace curl {
         template<class Opt, class T>
         void setopt(Opt opt, const T& t);
 
-        std::string makeUrl(const std::string& path, const std::string& query) const { return ppeureka::http::impl::makeUrl(m_endpoint, path, query); }
+        std::string makeUrl(const std::string& path, const std::string& query) const { return testeureka::http::impl::makeUrl(m_endpoint, path, query); }
 
-        CURL *handle() const PPEUREKA_NOEXCEPT { return m_handle.get(); }
+        CURL *handle() const testeureka_NOEXCEPT { return m_handle.get(); }
 
         void perform();
 

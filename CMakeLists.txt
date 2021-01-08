@@ -6,12 +6,12 @@
 
 cmake_minimum_required(VERSION 3.1)
 
-project(Ppeureka VERSION 0.0.1)
+project(Testeureka VERSION 0.0.1)
 
 if (WIN32)
-    option(BUILD_STATIC_LIB "Build Ppeureka as static library" ON)
+    option(BUILD_STATIC_LIB "Build testeureka as static library" ON)
 else()
-    option(BUILD_STATIC_LIB "Build Ppeureka as static library" OFF)
+    option(BUILD_STATIC_LIB "Build testeureka as static library" OFF)
 endif()
 
 include(GNUInstallDirs)
@@ -61,10 +61,10 @@ find_package(ZLIB REQUIRED)
 set(LIBB64_DIR "${PROJECT_SOURCE_DIR}/ext/b64")
 set(LIBB64_SOURCES "${LIBB64_DIR}/cdecode.h" "${LIBB64_DIR}/cdecode.c" "${LIBB64_DIR}/cencode.h" "${LIBB64_DIR}/cencode.c")
 
-set(HEADERS_DIR "${PROJECT_SOURCE_DIR}/include/ppeureka")
+set(HEADERS_DIR "${PROJECT_SOURCE_DIR}/include/testeureka")
 
 if (WIN32 AND NOT BUILD_STATIC_LIB)
-    message(FATAL_ERROR "Building Ppeureka as dynamic library on Windows is not supported")
+    message(FATAL_ERROR "Building testeureka as dynamic library on Windows is not supported")
 endif()
 
 add_subdirectory(src)
@@ -74,21 +74,21 @@ install(
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
 )
 
-install(EXPORT ${CMAKE_PROJECT_NAME} DESTINATION cmake FILE PpeurekaConfig.cmake)
-export(EXPORT ${CMAKE_PROJECT_NAME} FILE PpeurekaConfig.cmake)
+install(EXPORT ${CMAKE_PROJECT_NAME} DESTINATION cmake FILE testeurekaConfig.cmake)
+export(EXPORT ${CMAKE_PROJECT_NAME} FILE testeurekaConfig.cmake)
 
 # Generate and install pkg-config file
 if (NOT WIN32 OR CYGWIN)
     if (BUILD_STATIC_LIB)
-        set(Ppeureka_libs "-lPpeureka -ljson11")
+        set(testeureka_libs "-ltesteureka -ljson11")
     else()
-        set(Ppeureka_libs "-lPpeureka")
+        set(testeureka_libs "-ltesteureka")
     endif()
 
-    configure_file(ppeureka.pc.in ppeureka.pc @ONLY)
+    configure_file(testeureka.pc.in testeureka.pc @ONLY)
 
     install(
-        FILES "${CMAKE_CURRENT_BINARY_DIR}/ppeureka.pc"
+        FILES "${CMAKE_CURRENT_BINARY_DIR}/testeureka.pc"
         DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig"
     )
 endif()

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <ppeureka/http_client.h>
+#include <testeureka/http_client.h>
 #include "http_helpers.h"
 #include <curl/curl.h>
 #include <memory>
@@ -15,16 +15,16 @@
 #include <thread>
 #include <list>
 
-namespace ppeureka { namespace curl {
+namespace testeureka { namespace curl {
 
-    class HttpClientPool: public ppeureka::http::impl::Client
+    class HttpClientPool: public testeureka::http::impl::Client
     {
-        using HttpClientPtr = std::shared_ptr<ppeureka::http::impl::Client>;
+        using HttpClientPtr = std::shared_ptr<testeureka::http::impl::Client>;
 
     public:
         using GetResponse = std::tuple<http::Status, ResponseHeaders, std::string>;
-        using TlsConfig = ppeureka::http::impl::TlsConfig;
-        using HttpMethod = ppeureka::http::impl::HttpMethod;
+        using TlsConfig = testeureka::http::impl::TlsConfig;
+        using HttpMethod = testeureka::http::impl::HttpMethod;
 
         using lock_type = std::mutex;
         using auto_lock_type = std::unique_lock<lock_type>;

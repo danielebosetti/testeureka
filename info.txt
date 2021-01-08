@@ -1,0 +1,5 @@
+# create vcpkg port
+
+
+vcpkg create testeureka https://github.com/danielebosetti/testeureka/archive/v0.0.1.1.tar.gz
+
